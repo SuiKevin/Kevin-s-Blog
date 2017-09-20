@@ -231,6 +231,123 @@ allsvenskan 0.52497625351
 ```
 搞完这一波，一天也就差不多过去了……至于训练效果，取决于语料库以及我们的分词效果两点，可以针对这两点进行处理。
 
+## 附：Notebook版
+``` python
+import logging
+import os.path
+import sys
+from gensim.corpora import WikiCorpus
+# if __name__=='__main__':
+
+sys.argv[0] = "process_wiki"
+sys.argv[1] = "/root/zhwiki-latest-pages-articles.xml.bz2"
+sys.argv[2] = "wiki.zh.text"
+
+program = os.path.basename(sys.argv[0])
+logger = logging.getLogger(program)
+logging.basicConfig(format='%(asctime)s: %(levelname)s: %(message)s')
+logging.root.setLevel(logging.INFO)
+console = logging.StreamHandler()
+console.setLevel(logging.INFO)
+logging.getLogger('').addHandler(console)
+logger.info("running %s" % ' '.join(sys.argv))
+#check and process input arguments
+if len(sys.argv) < 3:
+    print(globals()['__doc__'] % locals())
+    sys.exit(1)
+inp, outp = sys.argv[1:3]
+space = " "
+i = 0
+output = open(outp, 'w')
+wiki = WikiCorpus(inp, lemmatize=False, dictionary={})
+for text in wiki.get_texts():
+    output.write(space.join(text) + "\n")
+    i = i + 1
+    if (i % 10000 == 0):
+        logger.info("Saved " + str(i) + " articles")
+output.close()
+logger.info("Finished Saved " + str(i) + " articles")
+```
+``` python
+import jieba
+import jieba.analyse
+import jieba.posseg as pseg
+import json
+def cut_words(sentence):
+    #print sentence
+    return " ".join(jieba.cut(sentence))
+f = open("/root/wiki.zh.text.jian")
+target = open("/root/wiki.zh.text.jian.seg", 'a+')
+print('open files')
+line = f.readlines(100000)
+while line:
+    curr = []
+    for oneline in line:
+        #print(oneline)
+        curr.append(oneline)
+    '''
+    seg_list = jieba.cut_for_search(s)
+    words = pseg.cut(s)
+    for word, flag in words:
+        if flag != 'x':
+            print(word)
+    for x, w in jieba.analyse.extract_tags(s, withWeight=True):
+        print('%s %s' % (x, w))
+    '''
+    after_cut = map(cut_words, curr)
+    # print lin,
+#     for words in after_cut:
+#         print(words)
+#     print(json.dumps(after_cut))
+    target.writelines(after_cut)
+    print('saved 100000 articles')
+    line = f.readlines(100000)
+f.close()
+target.close()
+print("end")
+```
+``` python
+import logging
+import os.path
+import sys
+import multiprocessing
+from gensim.corpora import WikiCorpus
+from gensim.models import Word2Vec
+from gensim.models.word2vec import LineSentence
+# if __name__ == '__main__':
+
+sys.argv[0] = "train_word2vec_model.py"
+inp = "/root/wiki.zh.text.jian.seg"
+outp1 = "/root/wiki.zh.text.model"
+outp2 = "/root/wiki.zh.text.vector"
+
+program = os.path.basename(sys.argv[0])
+logger = logging.getLogger(program)
+logging.basicConfig(format='%(asctime)s: %(levelname)s: %(message)s')
+logging.root.setLevel(level=logging.INFO)
+logger.info("running %s" % ' '.join(sys.argv))
+# check and process input arguments
+# if len(sys.argv) < 4:
+#     print(globals()['__doc__'] % locals())
+#     sys.exit(1)
+# inp, outp1, outp2 = sys.argv[1:4]
+model = Word2Vec(LineSentence(inp), size=400, window=5, min_count=5, workers=multiprocessing.cpu_count())
+model.save(outp1)
+model.save_word2vec_format(outp2, binary=False)
+```
+``` python
+import gensim
+
+model = gensim.models.Word2Vec.load("/root/wiki.zh.text.model")
+# print(model)
+# model.most_similar(u"男人")
+
+result = model.most_similar(u"男人")
+
+for e in result:
+    print(e[0], e[1])
+```
+
 ## 扩展阅读：
 ---
 [深度学习word2vec笔记之基础篇](http://blog.csdn.net/mytestmy/article/details/26961315)
