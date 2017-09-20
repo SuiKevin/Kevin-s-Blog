@@ -43,7 +43,7 @@ drwxr-xr-x. 9 root root 4.0K Mar 10 21:57 OpenCC-master
 ```
 sudo yum install -y cmake gcc gcc-c++ doxygen
 ```
-爲``/usr/lib/libopencc.so.2`創建符號鏈接至``/usr/lib64/libopencc.so.2`
+爲`/usr/lib/libopencc.so.2`創建符號鏈接至`/usr/lib64/libopencc.so.2`
 
 以下是摸索過程
 
