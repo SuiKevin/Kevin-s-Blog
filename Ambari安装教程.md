@@ -1,7 +1,7 @@
----
+
 # Ambari安装Hadoop集群教程
----
-## 本教程集群环境：
+
+## 集群环境：
 
 ### 阿里云服务器
 
@@ -17,12 +17,26 @@ master * 1 -> CPU : 4 core RAM : 16G OS_DISK : 40G DATA_DISK : 1T
 
 slave * 2 -> CPU : 4 core RAM : 8G OS_DISK : 40G DATA_DISK : 1T
 
----
+## 版本
+
+### Ambari
+
+Ambari-2.5.2.0-centos7
+
+### HDP
+
+HDP-2.6.1.0-centos7
+
+### HDP-UTILS
+
+HDP-UTILS-1.1.0.21-centos7
+
+
 # 准备环境
----
+
 ## pyenv installation
 使用pyenv创建虚拟python环境，可用来装anaconda环境，供pyspark程序使用
-```bash
+```
 #安装依赖
 yum install readline readline-devel readline-static -y
 yum install openssl openssl-devel openssl-static -y
@@ -148,9 +162,9 @@ echo umask 0022 >> /etc/profile
 enabled=0
 ```
 
----
+
 # 安装ambari
----
+
 ## 添加本地仓库
 **Ambari Base URL**
 ```
@@ -243,9 +257,9 @@ ambari-server start
 ## ambari访问地址
 http://master:8080
 
----
+
 # 建立集群
----
+
 ## add version
 http://public-repo-1.hortonworks.com/HDP/centos7/2.x/updates/2.6.1.0/HDP-2.6.1.0-129.xml
 
@@ -260,18 +274,18 @@ slave2
 ## 添加私钥文件
 **id_rsa**
 
----
+
 # Error1
----
+
 ```
 # slave1: parent directory /usr/hdp/current/hadoop-client/conf doesn't exist
 
 创建对应目录
 ```
 
----
+
 # Note1
----
+
 ```
 # read file from hdfs url
 
