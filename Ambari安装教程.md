@@ -107,9 +107,9 @@ chmod 600 ~/.ssh/authorized_keys
 ```
 vim /etc/hosts
 #在文件中添加集群所有机器的IP和FQDN，例如：
-10.30.116.144 master
-10.31.144.150 slave1
-10.31.148.80 slave2
+10.30.xxx.xx1 master
+10.31.xxx.xx2 slave1
+10.31.xxx.xx3 slave2
 ```
 
 ## ntp installation
@@ -189,9 +189,9 @@ vim /etc/yum.repos.d/ambari.repo
 
 [Updates-Ambari-2.5.2.0]
 name=Ambari-2.5.2.0-Updates
-baseurl=http://10.30.116.144/ambari/centos7
+baseurl=http://10.30.xxx.xx1/ambari/centos7
 gpgcheck=1
-gpgkey=http://10.30.116.144/ambari/centos7/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins
+gpgkey=http://10.30.xxx.xx1/ambari/centos7/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins
 enabled=1
 priority=1
 ```
