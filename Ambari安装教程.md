@@ -1,8 +1,28 @@
+---
+# Ambari安装Hadoop集群教程
+---
+## 本教程集群环境：
+
+### 阿里云服务器
+
+#### 系统：
+
+Centos7
+
+Linux master 3.10.0-514.16.1.el7.x86_64 #1 SMP Wed Apr 12 15:04:24 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux
+
+#### 配置：
+
+master * 1 -> CPU : 4 core RAM : 16G OS_DISK : 40G DATA_DISK : 1T
+
+slave * 2 -> CPU : 4 core RAM : 8G OS_DISK : 40G DATA_DISK : 1T
+
+---
 # 准备环境
 ---
 ## pyenv installation
 使用pyenv创建虚拟python环境，可用来装anaconda环境，供pyspark程序使用
-```
+```bash
 #安装依赖
 yum install readline readline-devel readline-static -y
 yum install openssl openssl-devel openssl-static -y
