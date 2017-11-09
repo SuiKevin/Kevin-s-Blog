@@ -78,7 +78,7 @@
 
 -setfacl [-bkR] {-m | -x} <acl_spec> \<path>
 
--setfacl --set <acl_spec> <path>
+-setfacl --set <acl_spec> \<path>
 
 选项：
 
